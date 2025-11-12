@@ -1,33 +1,48 @@
-import { Badge } from './ui/badge';
-import { Card } from './ui/card';
-import { Avatar, AvatarImage } from './ui/avatar';
+import { Badge } from './ui/badge'
+import { Card } from './ui/card'
+import { Avatar, AvatarImage } from './ui/avatar'
 
 interface BookingItemProps {
-  serviceName: string;
-  barbershopName: string;
-  barbershopImageUrl: string;
-  date: Date;
+  serviceName: string
+  barbershopName: string
+  barbershopImageUrl: string
+  date: Date
 }
 
-function BookingItem({serviceName, barbershopName, barbershopImageUrl, date}: BookingItemProps) {
+function BookingItem({
+  serviceName,
+  barbershopName,
+  barbershopImageUrl,
+  date,
+}: BookingItemProps) {
   return (
-    <Card className='flex flex-row w-full min-w-full items-center justify-between p-0'>
-      <div className='flex flex-1 flex-col gap-4 p-4'><Badge>Confirmado</Badge>
+    <Card className="flex w-full min-w-full flex-row items-center justify-between p-0">
+      <div className="flex flex-1 flex-col gap-4 p-4">
+        <Badge>Confirmado</Badge>
         <div>
-        <p className='flex flex-col gap-2'>{serviceName}</p>
-        <div className='flex items-center gap-2'>
-          <Avatar className='h-6 w-6'><AvatarImage src={barbershopImageUrl} alt={barbershopName} /></Avatar>
-          <p className='text-muted-foreground text-sm'>{barbershopName}</p>
+          <p className="flex flex-col gap-2">{serviceName}</p>
+          <div className="flex items-center gap-2">
+            <Avatar className="h-6 w-6">
+              <AvatarImage src={barbershopImageUrl} alt={barbershopName} />
+            </Avatar>
+            <p className="text-muted-foreground text-sm">{barbershopName}</p>
+          </div>
         </div>
       </div>
-      </div>
 
-      <div className='flex h-full flex-col items-center justify-center border-l p-4 py-3'>
-        <p className='text-xs capitalize'>{date.toLocaleDateString('pt-BR', {month: 'long'})}</p>
-        <p className='text-xs'>{date.toLocaleDateString('pt-BR', {day: '2-digit'})}</p>
-        <p className='text-xs'>{date.toLocaleTimeString('pt-BR', {
-hour: '2-digit', minute: '2-digit'
-        })}</p>
+      <div className="flex h-full flex-col items-center justify-center border-l p-4 py-3">
+        <p className="text-xs capitalize">
+          {date.toLocaleDateString('pt-BR', { month: 'long' })}
+        </p>
+        <p className="text-xs">
+          {date.toLocaleDateString('pt-BR', { day: '2-digit' })}
+        </p>
+        <p className="text-xs">
+          {date.toLocaleTimeString('pt-BR', {
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
+        </p>
       </div>
     </Card>
   )
