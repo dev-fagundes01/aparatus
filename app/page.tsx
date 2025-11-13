@@ -6,6 +6,12 @@ import BookingItem from "./_components/booking-item";
 import { prisma } from "@/lib/prisma";
 import BarbershopItem from "./_components/barbershop-item";
 import Footer from "./_components/footer";
+import {
+  PageContainer,
+  PageSection,
+  PageSectionScroller,
+  PageSectionTitle,
+} from "./_components/ui/page";
 
 export default async function Home() {
   const recommendedBarbershop = await prisma.barberShop.findMany({
@@ -23,7 +29,7 @@ export default async function Home() {
   return (
     <>
       <Header />
-      <div className="space-y-5 px-5">
+      <PageContainer>
         <SearchInput />
         <Image
           src={banner}
@@ -32,28 +38,34 @@ export default async function Home() {
           className="h-auto w-full"
         />
 
-        <h2 className="text-foreground text-xs font-semibold">Agendamentos</h2>
-        <BookingItem
-          serviceName="Corte de Cabelo"
-          barbershopName="Barbearia do Zé"
-          barbershopImageUrl="https://utfs.io/f/7e309eaa-d722-465b-b8b6-76217404a3d3-16s.png"
-          date={new Date()}
-        />
+        <PageSection>
+          <PageSectionTitle>Agendamentos</PageSectionTitle>
+          <BookingItem
+            serviceName="Corte de Cabelo"
+            barbershopName="Barbearia do Zé"
+            barbershopImageUrl="https://utfs.io/f/7e309eaa-d722-465b-b8b6-76217404a3d3-16s.png"
+            date={new Date()}
+          />
+        </PageSection>
 
-        <h2 className="text-foreground text-xs font-semibold">Agendamentos</h2>
-        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-          {recommendedBarbershop.map((barbershop) => (
-            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
-          ))}
-        </div>
+        <PageSection>
+          <PageSectionTitle>Recomendados</PageSectionTitle>
+          <PageSectionScroller>
+            {recommendedBarbershop.map((barbershop) => (
+              <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+            ))}
+          </PageSectionScroller>
+        </PageSection>
 
-        <h2 className="text-foreground text-xs font-semibold">Agendamentos</h2>
-        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-          {popularBarbershop.map((barbershop) => (
-            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
-          ))}
-        </div>
-      </div>
+        <PageSection>
+          <PageSectionTitle>Populares</PageSectionTitle>
+          <PageSectionScroller>
+            {popularBarbershop.map((barbershop) => (
+              <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+            ))}
+          </PageSectionScroller>
+        </PageSection>
+      </PageContainer>
       <Footer />
     </>
   );
