@@ -1,0 +1,10 @@
+{
+  "customInstructions": "${workspaceFolder}/.vscode/ai/rules.md",
+  "models": [
+    {
+      "title": "Gemini Free",
+      "provider": "google",
+      "model": "gemini-1.5-flash"
+    }
+  ]
+}
