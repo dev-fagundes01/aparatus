@@ -17,4 +17,5 @@ Tecnologias utilizadas:
 - Use a página que está em @app/page.tsx como referência para criar e organizar o código.
 - **SEMPRE** use o MCP do Context7 para buscar documentações, sites e APIs.
 - **SEMPRE** use os componentes @app/\_components/footer.tsx e @app/\_components/header.tsx na hora de criar headers e footers. **NUNCA** os crie manualmente.
-  Evite ao máximo diplicidade de código. Ao repetir um código, crie componentes e/ou funções utilitárias.
+- Evite ao máximo diplicidade de código. Ao repetir um código, crie componentes e/ou funções utilitárias.
+- Ao usar Figma MCP, **SEMPRE** seja 100% fiel ao Figma, **CUSTE O QUE CUSTAR**.
