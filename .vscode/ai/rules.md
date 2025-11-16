@@ -10,6 +10,7 @@ Tecnologias utilizadas:
 - Prisma
 - shadcn/ui
 - Tailwind CSS
+- BetterAuth para autenticação.
 
 - SEMPRE use shadcn como biblioteca de componentes
 - SEMPRE use componentes que estão em @app/\_components/ui/page.tsx

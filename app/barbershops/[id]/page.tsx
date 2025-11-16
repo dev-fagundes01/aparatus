@@ -24,8 +24,8 @@ const BarbershopPage = async (props: PageProps<'/barbershops/[id]'>) => {
   return (
     <div className="flex size-full flex-col items-start overflow-clip">
       {/* Hero Section com Imagem */}
-      <div className="relative h-[297px] w-full">
-        <div className="absolute top-0 left-0 h-full w-full">
+      <div className="relative h-52 w-full">
+        <div className="absolute top-0 left-0 h-52 w-full">
           <Image
             src={barbershop.imgUrl}
             alt={barbershop.name}
@@ -52,7 +52,7 @@ const BarbershopPage = async (props: PageProps<'/barbershops/[id]'>) => {
       {/* Container Principal */}
       <div className="bg-background w-full flex-1 rounded-tl-3xl rounded-tr-3xl">
         {/* Informações da Barbearia */}
-        <div className="flex w-full items-center gap-1.5 px-5 pt-6 pb-0">
+        <div className="flex w-full items-center gap-1.5 px-5 pt-4 pb-0">
           <div className="flex flex-col items-start gap-1">
             <div className="flex items-start gap-1.5">
               <div className="relative size-[30px] shrink-0 overflow-hidden rounded-full">
@@ -78,7 +78,7 @@ const BarbershopPage = async (props: PageProps<'/barbershops/[id]'>) => {
         </div>
 
         {/* Divider */}
-        <div className="px-0 py-6">
+        <div className="px-0 py-2">
           <Separator />
         </div>
 
@@ -95,7 +95,7 @@ const BarbershopPage = async (props: PageProps<'/barbershops/[id]'>) => {
         </div>
 
         {/* Divider */}
-        <div className="px-0 py-6">
+        <div className="px-0 py-2">
           <Separator />
         </div>
 
@@ -114,7 +114,7 @@ const BarbershopPage = async (props: PageProps<'/barbershops/[id]'>) => {
         </div>
 
         {/* Divider */}
-        <div className="px-0 py-6">
+        <div className="px-0 py-2">
           <Separator />
         </div>
 
@@ -133,7 +133,7 @@ const BarbershopPage = async (props: PageProps<'/barbershops/[id]'>) => {
         </div>
 
         {/* Footer */}
-        <div className="flex w-full flex-col items-center gap-2.5 px-0 pt-[60px] pb-0">
+        <div className="flex w-full flex-col items-center gap-2.5 px-0 pt-5 pb-0">
           <div className="bg-secondary flex w-full flex-col items-start justify-center gap-1.5 px-[30px] py-8 text-xs leading-none">
             <p className="text-foreground font-semibold">
               © 2025 Copyright Aparatus

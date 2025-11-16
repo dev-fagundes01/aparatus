@@ -8,9 +8,9 @@ function SearchInput() {
       <Input
         type="text"
         placeholder="Pesquise serviços ou barbearias"
-        className="border-border rounded-full"
+        className="border-border h-8 rounded-full"
       />
-      <Button variant="outline">
+      <Button variant="outline" className="h-8 w-8">
         <SearchIcon />
       </Button>
     </div>
