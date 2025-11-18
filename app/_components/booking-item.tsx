@@ -7,6 +7,7 @@ interface BookingItemProps {
   barbershopName: string
   barbershopImageUrl: string
   date: Date
+  status: 'confirmed' | 'finished'
 }
 
 function BookingItem({
@@ -14,11 +15,20 @@ function BookingItem({
   barbershopName,
   barbershopImageUrl,
   date,
+  status,
 }: BookingItemProps) {
   return (
     <Card className="flex w-full min-w-full flex-row items-center justify-between p-0">
       <div className="flex flex-1 flex-col gap-4 p-4">
-        <Badge>Confirmado</Badge>
+        <Badge
+          className={
+            status === 'confirmed'
+              ? 'bg-primary/10 text-primary uppercase'
+              : 'bg-muted text-muted-foreground uppercase'
+          }
+        >
+          {status === 'confirmed' ? 'Confirmado' : 'Finalizado'}
+        </Badge>
         <div>
           <p className="flex flex-col gap-2">{serviceName}</p>
           <div className="flex items-center gap-2">
@@ -30,11 +40,11 @@ function BookingItem({
         </div>
       </div>
 
-      <div className="flex h-full flex-col items-center justify-center border-l p-4 py-3">
+      <div className="flex h-full w-[106px] flex-col items-center justify-center border-l py-3">
         <p className="text-xs capitalize">
           {date.toLocaleDateString('pt-BR', { month: 'long' })}
         </p>
-        <p className="text-xs">
+        <p className="text-2xl">
           {date.toLocaleDateString('pt-BR', { day: '2-digit' })}
         </p>
         <p className="text-xs">
