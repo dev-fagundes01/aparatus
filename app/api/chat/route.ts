@@ -3,13 +3,14 @@ import { google } from '@ai-sdk/google'
 import z from 'zod'
 import { prisma } from '@/lib/prisma'
 import { getDateAvailableTimeSlots } from '@/app/_actions/get-date-available-time-slots'
+import { createBooking } from '@/app/_actions/create-booking'
 
 export const POST = async (request: Request) => {
   const { messages } = await request.json()
   const result = streamText({
     model: google('gemini-2.0-flash'),
     stopWhen: stepCountIs(10),
-    system: `Você é o Aparatus, um assistente virtual de agendamento de barbearias.
+    system: `Você é o Agenda.ai, um assistente virtual de agendamento de barbearias.
 
     DATA ATUAL: Hoje é ${new Date().toLocaleDateString('pt-BR', {
       weekday: 'long',
@@ -52,6 +53,17 @@ export const POST = async (request: Request) => {
     - Data e horário escolhido
     - Preço
 
+
+    Criação da reserva:
+    - Após o usuário confirmar explicitamente a escolha (ex: "confirmo", "pode agendar", "quero esse horário"), use a ferramenta createBooking
+    - Parâmetros necessários:
+      * serviceId: ID do serviço escolhido
+      * date: Data e horário no formato ISO (YYYY-MM-DDTHH:mm:ss) - exemplo: "2025-11-05T10:00:00"
+    - Se a criação for bem-sucedida (success: true), informe ao usuário que a reserva foi confirmada com sucesso
+    - Se houver erro (success: false), explique o erro ao usuário:
+      * Se o erro for "User must be logged in", informe que é necessário fazer login para criar uma reserva
+      * Para outros erros, informe que houve um problema e peça para tentar novamente
+
     Importante:
     - NUNCA mostre informações técnicas ao usuário (barbershopId, serviceId, formatos ISO de data, etc.)
     - SEMPRE retorne texto para o usuário, NUNCA JSON.
@@ -59,6 +71,7 @@ export const POST = async (request: Request) => {
     - Não liste TODOS os horários disponíveis, sugira apenas 4-5 opções espaçadas ao longo do dia
     - Se não houver horários disponíveis, sugira uma data alternativa
     - Quando o usuário mencionar "hoje", "amanhã", "depois de amanhã" ou dias da semana, calcule a data correta automaticamente`,
+
     messages: convertToModelMessages(messages),
     tools: {
       searchBarbershops: tool({
@@ -79,11 +92,13 @@ export const POST = async (request: Request) => {
               name: barbershop.name,
               address: barbershop.address,
               services: barbershop.services.map((service) => ({
+                id: service.id,
                 name: service.name,
                 price: service.priceInCents / 100,
               })),
             }))
           }
+
           const barbershops = await prisma.barberShop.findMany({
             where: {
               name: {
@@ -100,6 +115,7 @@ export const POST = async (request: Request) => {
             name: barbershop.name,
             address: barbershop.address,
             services: barbershop.services.map((service) => ({
+              id: service.id,
               name: service.name,
               price: service.priceInCents / 100,
             })),
@@ -134,6 +150,35 @@ export const POST = async (request: Request) => {
             barbershopId,
             date,
             availableTimeSlots: result.data,
+          }
+        },
+      }),
+
+      createBooking: tool({
+        description:
+          'Cria um agendamento para um serviço em uma data específica.',
+        inputSchema: z.object({
+          serviceId: z.string().describe('ID do serviço'),
+          date: z
+            .string()
+            .describe('Data em ISO String para a qual deseja agendar'),
+        }),
+        execute: async ({ serviceId, date }) => {
+          const parsedDate = new Date(date)
+          const result = await createBooking({
+            serviceId,
+            date: parsedDate,
+          })
+          if (result.serverError || result.validationErrors) {
+            return {
+              error:
+                result.validationErrors?._errors?.[0] ||
+                'Erro ao criar agendamento',
+            }
+          }
+          return {
+            success: true,
+            message: 'Agendamento criado com sucesso',
           }
         },
       }),
