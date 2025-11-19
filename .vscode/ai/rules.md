@@ -35,3 +35,7 @@ Tecnologias utilizadas:
 - AO criar sheets, **NUNCA** crie manualmnete o botão de fechar, o próprio Sheet do shadcn já tem um.
 - Ao criar sheets, **NUNCA** crie o separator entre o header e o conteúdo manualmente, o próprio SheetHeader já tem um border-bottom.
 - **NUNCA** execute `npm run dev` pra validar suas mudanças.
+
+## Figma MCP
+
+- **NUNCA** faça downloads de ícones do Figma, **SEMPRE** use a biblioteca lucide-react para renderizar ícones.

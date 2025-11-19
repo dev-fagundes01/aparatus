@@ -9,7 +9,7 @@ import {
   SheetTrigger,
 } from './ui/sheet'
 import SidebarMenu from './sidebar-menu'
-import { MenuIcon } from 'lucide-react'
+import { MenuIcon, MessageCircleIcon } from 'lucide-react'
 import Link from 'next/link'
 
 function Header() {
@@ -25,6 +25,11 @@ function Header() {
         />
       </Link>
       <div className="flex items-center gap-2">
+        <Button variant="outline" size="icon" asChild>
+          <Link href="/chat">
+            <MessageCircleIcon />
+          </Link>
+        </Button>
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon">
