@@ -52,7 +52,7 @@ export const ChatMessage = ({
           <Bot className="text-primary size-3.5" />
         </div>
         <div className="text-foreground max-w-full text-sm leading-[1.4] font-normal wrap-break-word whitespace-normal">
-          <Streamdown isStreaming={isStreaming}>{content}</Streamdown>
+          <Streamdown>{content}</Streamdown>
         </div>
       </div>
     </div>
