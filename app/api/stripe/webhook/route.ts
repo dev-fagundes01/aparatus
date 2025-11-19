@@ -11,6 +11,7 @@ export const POST = async (request: Request) => {
   if (!signature) {
     return NextResponse.error()
   }
+
   const text = await request.text()
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
   const event = stripe.webhooks.constructEvent(
@@ -18,6 +19,7 @@ export const POST = async (request: Request) => {
     signature,
     process.env.STRIPE_WEBHOOK_SECRET
   )
+
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object
     const date = session.metadata?.date ? new Date(session.metadata.date) : null
@@ -27,12 +29,29 @@ export const POST = async (request: Request) => {
     if (!date || !serviceId || !barbershopId || !userId) {
       return NextResponse.error()
     }
+
+    // Retrieve session with expanded payment_intent to get chargeId
+    const expandedSession = await stripe.checkout.sessions.retrieve(
+      session.id,
+      {
+        expand: ['payment_intent'],
+      }
+    )
+
+    // Extract chargeId from payment_intent
+    const paymentIntent = expandedSession.payment_intent as Stripe.PaymentIntent
+    const chargeId =
+      typeof paymentIntent?.latest_charge === 'string'
+        ? paymentIntent.latest_charge
+        : paymentIntent?.latest_charge?.id
+
     await prisma.booking.create({
       data: {
         barbershopId,
         serviceId,
         date,
         userId,
+        stripeChargeId: chargeId,
       },
     })
   }
