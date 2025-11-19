@@ -69,7 +69,7 @@ export default function ChatPage() {
         <p className="font-merriweather text-foreground text-[20px] leading-[1.4] tracking-[-1px] text-nowrap whitespace-pre italic">
           Aparatus
         </p>
-        <div className="flex items-center justify-end gap-[15px]" />
+        <div className="flex w-full items-center justify-end gap-[15px]" />
       </div>
 
       <div className="flex-1 overflow-y-auto pb-24 [&::-webkit-scrollbar]:hidden">
@@ -77,7 +77,15 @@ export default function ChatPage() {
           ? INITIAL_MESSAGES.map((msg) => (
               <ChatMessage key={msg.id} message={msg} />
             ))
-          : messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
+          : messages.map((msg, index) => (
+              <ChatMessage
+                key={msg.id}
+                message={msg}
+                isStreaming={
+                  status === 'streaming' && index === messages.length - 1
+                }
+              />
+            ))}
         <div ref={messagesEndRef} />
       </div>
 

@@ -1,11 +1,16 @@
 import { UIMessage } from 'ai'
 import { Bot } from 'lucide-react'
+import { Streamdown } from 'streamdown'
 
 interface ChatMessageProps {
   message: UIMessage
+  isStreaming?: boolean
 }
 
-export const ChatMessage = ({ message }: ChatMessageProps) => {
+export const ChatMessage = ({
+  message,
+  isStreaming = false,
+}: ChatMessageProps) => {
   const isUser = message.role === 'user'
   const isSystem = message.role === 'system'
 
@@ -31,8 +36,8 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
   if (isUser) {
     return (
       <div className="flex w-full flex-col items-end gap-3 pt-6 pr-5 pb-0 pl-10">
-        <div className="bg-secondary flex h-10 items-center gap-2.5 rounded-full px-4 py-3">
-          <p className="text-foreground text-sm leading-[1.4] font-normal whitespace-pre">
+        <div className="bg-secondary flex max-w-[calc(100%-40px)] items-center gap-2.5 rounded-full px-4 py-3">
+          <p className="text-foreground truncate text-sm leading-[1.4] font-normal wrap-break-word whitespace-normal">
             {content}
           </p>
         </div>
@@ -46,9 +51,9 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
         <div className="border-border flex size-8 shrink-0 items-center justify-center rounded-full border bg-[rgba(48,92,58,0.12)]">
           <Bot className="text-primary size-3.5" />
         </div>
-        <p className="text-foreground grow basis-0 text-sm leading-[1.4] font-normal">
-          {content}
-        </p>
+        <div className="text-foreground max-w-full text-sm leading-[1.4] font-normal wrap-break-word whitespace-normal">
+          <Streamdown isStreaming={isStreaming}>{content}</Streamdown>
+        </div>
       </div>
     </div>
   )
