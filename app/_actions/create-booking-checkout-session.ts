@@ -49,6 +49,9 @@ export const createBookingCheckoutSession = actionClient
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/bookings`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}`,
       metadata: {
+        serviceId: service.id,
+        barbershopId: service.barbershopId,
+        userId: session.user.id,
         date: date.toISOString(),
       },
       line_items: [
@@ -59,7 +62,7 @@ export const createBookingCheckoutSession = actionClient
             product_data: {
               name: `${service.barbershop.name} - ${service.name} em ${format(date, 'dd/MM/yyyy HH:mm')}`,
               description: service.description,
-              images: [service.imageUrl],
+              images: [service.imgUrl],
             },
           },
           quantity: 1,
